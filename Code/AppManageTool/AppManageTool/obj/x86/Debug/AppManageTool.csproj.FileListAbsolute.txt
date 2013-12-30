@@ -1,0 +1,10 @@
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\bin\Debug\AppManageTool.exe.config
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\bin\Debug\AppManageTool.exe
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\bin\Debug\AppManageTool.pdb
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\AppManageTool.FrmMain.resources
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\AppManageTool.Properties.Resources.resources
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\AppManageTool.exe
+E:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\AppManageTool.pdb
