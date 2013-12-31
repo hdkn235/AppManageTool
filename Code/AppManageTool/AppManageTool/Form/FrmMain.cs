@@ -99,5 +99,39 @@ namespace AppManageTool
                 }
             }
         }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            AppInfo model = dgvInfos.SelectedRows[0].DataBoundItem as AppInfo;
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            string IDlist = string.Empty;
+            for (int i = 0; i < dgvInfos.Rows.Count; i++)
+            {
+                if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
+                {
+                    IDlist += dgvInfos.Rows[i].Cells["id"].Value.ToString() + ",";
+                }
+            }
+            if (!string.IsNullOrEmpty(IDlist))
+            {
+                if (service.DeleteList(IDlist.Substring(0, IDlist.Length - 1)))
+                {
+                    MessageBox.Show("删除成功！");
+                    Init();
+                }
+                else
+                {
+                    MessageBox.Show("删除失败！");
+                }
+            }
+            else
+            {
+                MessageBox.Show("请选择要删除的应用！");
+            }
+        }
     }
 }

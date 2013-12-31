@@ -98,5 +98,21 @@ namespace AppManageTool
                 return false;
             }
         }
+
+        public bool DeleteList(string IDlist)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from AppInfo ");
+            strSql.Append(" where ID in (" + IDlist + ")  ");
+            int rows = AccessHelper.ExecuteNonQuery(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
