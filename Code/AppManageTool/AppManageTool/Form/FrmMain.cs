@@ -93,7 +93,7 @@ namespace AppManageTool
                     {
                         if (!string.IsNullOrEmpty(model.AppPath))
                         {
-                            CommandHelper.startcmd("cmd.exe",model.AppPath);
+                            CommandHelper.ExecuteCmd(model.AppPath, 0);
                         }
                     }
                 }
