@@ -21,7 +21,8 @@ namespace AppManageTool
                             AppParam,
                             AppOrder,
                             switch(AppType=1,'执行脚本',AppType=2,'执行文件') as Type,
-                            AppType
+                            AppType,
+                            IsChecked
                             from AppInfo a");
             if (strWhere.Trim() != "")
             {
@@ -82,6 +83,10 @@ namespace AppManageTool
                 if (row["Type"] != null && row["Type"].ToString() != "")
                 {
                     model.Type = row["Type"].ToString();
+                }
+                if (row["IsChecked"] != null && row["IsChecked"].ToString() != "")
+                {
+                    model.IsChecked = int.Parse(row["IsChecked"].ToString());
                 }
             }
             return model;
@@ -160,6 +165,60 @@ namespace AppManageTool
             parameters[2].Value = model.AppParam;
             parameters[3].Value = model.AppType;
             parameters[4].Value = model.ID;
+
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 修改选中状态
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool UpdateChecked(AppInfo model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update AppInfo set ");
+            strSql.Append("IsChecked=@IsChecked");
+            strSql.Append(" where ID=@ID");
+            OleDbParameter[] parameters = {
+					new OleDbParameter("@IsChecked", OleDbType.Integer,4),
+					new OleDbParameter("@ID", OleDbType.Integer,4)};
+            parameters[0].Value = model.IsChecked;
+            parameters[1].Value = model.ID;
+
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString(), parameters);
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 更新排序
+        /// </summary>
+        public bool UpdateOrder(AppInfo model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update AppInfo set ");
+            strSql.Append("AppOrder=@AppOrder");
+            strSql.Append(" where ID=@ID");
+            OleDbParameter[] parameters = {
+                    new OleDbParameter("@AppOrder", OleDbType.Integer,4),
+					new OleDbParameter("@ID", OleDbType.Integer,4)};
+            parameters[0].Value = model.AppOrder;
+            parameters[1].Value = model.ID;
 
             int rows = DbHelperOleDb.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)

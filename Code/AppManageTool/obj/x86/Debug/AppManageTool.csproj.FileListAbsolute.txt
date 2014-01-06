@@ -23,7 +23,6 @@ D:\Projects\AppManageTool\Code\AppManageTool\AppManageTool\obj\x86\Debug\Generat
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\AppManageTool.exe.config
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.exe
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.pdb
-E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\bin\Debug\Data.mdb
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\AppManageTool.exe
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\AppManageTool.pdb
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\ResolveAssemblyReference.cache

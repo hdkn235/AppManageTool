@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Threading;
 using AppManageTool.Extension;
+using System.IO;
+using AppManageTool.DBUtility;
 
 namespace AppManageTool
 {
@@ -151,10 +153,10 @@ namespace AppManageTool
             AppInfo model;
             for (int i = 0; i < dgvInfos.Rows.Count; i++)
             {
+                //将行数据转换成实体对象
+                model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
                 if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
                 {
-                    //将行数据转换成实体对象
-                    model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
                     if (!string.IsNullOrEmpty(model.AppPath))
                     {
                         switch (model.AppType)
@@ -168,8 +170,9 @@ namespace AppManageTool
                         }
                     }
                 }
+                service.UpdateChecked(model);
             }
-            GlobalInfo.FrmM.cmd.HideOpaqueLayer();
+            cmd.HideOpaqueLayer();
         }
 
         /// <summary>
@@ -273,5 +276,80 @@ namespace AppManageTool
                 dgvInfos.Rows[i].Cells["cb"].Value = cbAll.Checked ? "1" : "0";
             }
         }
+
+        private void picBrowser_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "所有文件|*.*";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtName.Text = Path.GetFileNameWithoutExtension(ofd.SafeFileName);
+                txtPath.Text = ofd.FileName;
+                rdbFile.Checked = true;
+            }
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+            Sort(false);
+        }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="sortType">上移为false 下移为true</param>
+        private void Sort(bool sortType)
+        {
+            int index = dgvInfos.CurrentCell.RowIndex;
+            if ((!sortType && index == 0) || (sortType && index == dgvInfos.Rows.Count - 1)) return;
+            if (sortType)
+            {
+                index++;
+            }
+            else
+            {
+                index--;
+            }
+            AppInfo modelNow = dgvInfos.SelectedRows[0].DataBoundItem as AppInfo;
+            AppInfo modelMove = dgvInfos.Rows[index].DataBoundItem as AppInfo;
+
+            int tempOrder = modelNow.AppOrder;
+            modelNow.AppOrder = modelMove.AppOrder;
+            modelMove.AppOrder = tempOrder;
+
+            if (service.UpdateOrder(modelNow) && service.UpdateOrder(modelMove))
+            {
+                Init();
+                dgvInfos.CurrentCell = dgvInfos.Rows[index].Cells[0];
+            }
+        }
+
+        #region 后门程序
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            Sort(true);
+        }
+
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DESEncrypt.Encrypt(txtEncryptStr.Text));
+        }
+
+        private void btnDencrypt_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DESEncrypt.Decrypt(txtEncryptStr.Text));
+        }
+
+        private void txtName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && txtName.Text == "whoisyourdaddy")
+            {
+                pnHide.Show();
+                pnHide.BringToFront();
+            }
+        }
+
+        #endregion
     }
 }

@@ -66,5 +66,12 @@ namespace AppManageTool.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        internal static System.Drawing.Bitmap png_0087 {
+            get {
+                object obj = ResourceManager.GetObject("png_0087", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

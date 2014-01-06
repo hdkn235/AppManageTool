@@ -8,6 +8,8 @@ namespace AppManageTool.DBUtility
 	/// </summary>
 	public class DESEncrypt
 	{
+        private static string key = "maktub";
+
 		public DESEncrypt()
 		{			
 		}
@@ -21,7 +23,7 @@ namespace AppManageTool.DBUtility
         /// <returns></returns>
 		public static string Encrypt(string Text) 
 		{
-            return Encrypt(Text, "litianping");
+            return Encrypt(Text, key);
 		}
 		/// <summary> 
 		/// 加密数据 
@@ -60,7 +62,7 @@ namespace AppManageTool.DBUtility
         /// <returns></returns>
 		public static string Decrypt(string Text) 
 		{
-            return Decrypt(Text, "litianping");
+            return Decrypt(Text, key);
 		}
 		/// <summary> 
 		/// 解密数据 

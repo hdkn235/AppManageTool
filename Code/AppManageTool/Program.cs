@@ -15,8 +15,7 @@ namespace AppManageTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            GlobalInfo.FrmM = new FrmMain();
-            Application.Run(GlobalInfo.FrmM);
+            Application.Run(new FrmMain());
         }
     }
 }

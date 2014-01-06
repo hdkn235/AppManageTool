@@ -59,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\MyOpaqueLayerThread.cs" />
-    <Compile Include="GlobalInfo.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Services\AppInfoService.cs" />
     <Compile Include="Common\CommandHelper.cs" />
@@ -111,9 +110,8 @@
     <None Include="bin\Debug\loading.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\Data.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <None Include="Resources\png-0017.ico" />
+    <None Include="bin\Debug\png-0087.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

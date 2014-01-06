@@ -23,6 +23,8 @@ namespace AppManageTool
         public int AppNum { get; set; }
 
         public string Type { get; set; }
+
+        public int IsChecked { get; set; }
     }
 
     public enum ExcuteType
