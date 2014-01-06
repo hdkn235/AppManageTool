@@ -133,7 +133,6 @@ namespace AppManageTool
         private void btnRun_Click(object sender, EventArgs e)
         {
             cmd.ShowOpaqueLayer(groupBox1, 150, true);
-            pnAdd.BringToFront();
 
             //创建线程对象传入要线程执行的方法
             Thread th = new Thread(RunApp);
