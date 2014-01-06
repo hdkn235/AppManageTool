@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.OleDb;
+using AppManageTool.DBUtility;
 
 namespace AppManageTool
 {
@@ -12,16 +13,25 @@ namespace AppManageTool
         public List<AppInfo> GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select * from AppInfo");
+            strSql.Append(@"select 
+                            (1+(select count(*) from AppInfo where a.AppOrder>AppOrder)) AS AppNum,
+                            ID,
+                            AppName,
+                            AppPath,
+                            AppParam,
+                            AppOrder,
+                            switch(AppType=1,'执行脚本',AppType=2,'执行文件') as Type,
+                            AppType
+                            from AppInfo a");
             if (strWhere.Trim() != "")
             {
                 strSql.Append(" where " + strWhere);
             }
             strSql.Append(" order by AppOrder");
-            DataTable dt = AccessHelper.GetDataSet(strSql.ToString()).Tables[0];
+            DataTable dt = DbHelperOleDb.Query(strSql.ToString()).Tables[0];
 
             List<AppInfo> list = new List<AppInfo>();
-            if (dt.Rows.Count >0 )
+            if (dt.Rows.Count > 0)
             {
                 AppInfo model;
                 foreach (DataRow dr in dt.Rows)
@@ -61,9 +71,17 @@ namespace AppManageTool
                 {
                     model.AppOrder = int.Parse(row["AppOrder"].ToString());
                 }
+                if (row["AppNum"] != null && row["AppNum"].ToString() != "")
+                {
+                    model.AppNum = int.Parse(row["AppNum"].ToString());
+                }
                 if (row["AppType"] != null && row["AppType"].ToString() != "")
                 {
                     model.AppType = int.Parse(row["AppType"].ToString());
+                }
+                if (row["Type"] != null && row["Type"].ToString() != "")
+                {
+                    model.Type = row["Type"].ToString();
                 }
             }
             return model;
@@ -71,24 +89,28 @@ namespace AppManageTool
 
         public bool Add(AppInfo model)
         {
+            int maxID = DbHelperOleDb.GetMaxID("ID", "AppInfo");
+
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into AppInfo(");
-            strSql.Append("AppName,AppPath,AppParam,AppOrder,AppType)");
+            strSql.Append("AppName,AppPath,AppParam,AppOrder,AppType,ID)");
             strSql.Append(" values (");
-            strSql.Append("@AppName,@AppPath,@AppParam,@AppOrder,@AppType)");
+            strSql.Append("@AppName,@AppPath,@AppParam,@AppOrder,@AppType,@ID)");
             OleDbParameter[] parameters = {
 					new OleDbParameter("@AppName", OleDbType.VarChar,255),
 					new OleDbParameter("@AppPath", OleDbType.VarChar,255),
 					new OleDbParameter("@AppParam", OleDbType.VarChar,255),
 					new OleDbParameter("@AppOrder", OleDbType.Integer,4),
-                    new OleDbParameter("@AppType", OleDbType.Integer,4)};
+                    new OleDbParameter("@AppType", OleDbType.Integer,4),
+                    new OleDbParameter("@ID", OleDbType.Integer,4)};
             parameters[0].Value = model.AppName;
             parameters[1].Value = model.AppPath;
             parameters[2].Value = model.AppParam;
-            parameters[3].Value = model.AppOrder;
+            parameters[3].Value = maxID;
             parameters[4].Value = model.AppType;
+            parameters[5].Value = maxID;
 
-            int rows = AccessHelper.ExecuteNonQuery(strSql.ToString(), parameters);
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {
                 return true;
@@ -99,12 +121,47 @@ namespace AppManageTool
             }
         }
 
-        public bool DeleteList(string IDlist)
+        public bool DeleteList(string idList)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("delete from AppInfo ");
-            strSql.Append(" where ID in (" + IDlist + ")  ");
-            int rows = AccessHelper.ExecuteNonQuery(strSql.ToString());
+            strSql.Append("delete from AppInfo");
+            strSql.Append(" where ID in (" + idList + ")");
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 更新一条数据
+        /// </summary>
+        public bool Update(AppInfo model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update AppInfo set ");
+            strSql.Append("AppName=@AppName,");
+            strSql.Append("AppPath=@AppPath,");
+            strSql.Append("AppParam=@AppParam,");
+            strSql.Append("AppType=@AppType");
+            strSql.Append(" where ID=@ID");
+            OleDbParameter[] parameters = {
+					new OleDbParameter("@AppName", OleDbType.VarChar,255),
+					new OleDbParameter("@AppPath", OleDbType.VarChar,255),
+					new OleDbParameter("@AppParam", OleDbType.VarChar,255),
+					new OleDbParameter("@AppType", OleDbType.Integer,4),
+					new OleDbParameter("@ID", OleDbType.Integer,4)};
+            parameters[0].Value = model.AppName;
+            parameters[1].Value = model.AppPath;
+            parameters[2].Value = model.AppParam;
+            parameters[3].Value = model.AppType;
+            parameters[4].Value = model.ID;
+
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
             {
                 return true;

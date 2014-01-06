@@ -19,6 +19,10 @@ namespace AppManageTool
         public int AppType { get; set; }
 
         public int AppOrder { get; set; }
+
+        public int AppNum { get; set; }
+
+        public string Type { get; set; }
     }
 
     public enum ExcuteType
