@@ -351,5 +351,49 @@ namespace AppManageTool
         }
 
         #endregion
+
+        /// <summary>
+        /// 鼠标拖拽到列表上时发生的事件 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInfos_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        /// <summary>
+        /// 鼠标拖拽到列表上完成时发生的事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInfos_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] fileInfo = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+
+            for (int i = 0; i < fileInfo.Length; i++)
+            {
+                AppInfo model = new AppInfo();
+                model.AppName = Path.GetFileNameWithoutExtension(fileInfo[i]);
+                model.AppPath = fileInfo[i];
+                model.AppType = (int)ExcuteType.ExcuteFile;
+                model.AppParam = "";
+                if (!service.Add(model))
+                {
+                    MessageBox.Show("保存失败！");
+                    return;
+                }
+            }
+            Init();
+        }
+
+
     }
 }

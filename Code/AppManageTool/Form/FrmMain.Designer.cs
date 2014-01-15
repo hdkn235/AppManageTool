@@ -71,6 +71,7 @@
             // 
             // dgvInfos
             // 
+            this.dgvInfos.AllowDrop = true;
             this.dgvInfos.AllowUserToAddRows = false;
             this.dgvInfos.AllowUserToDeleteRows = false;
             this.dgvInfos.AllowUserToResizeRows = false;
@@ -95,6 +96,8 @@
             this.dgvInfos.Size = new System.Drawing.Size(689, 465);
             this.dgvInfos.TabIndex = 1;
             this.dgvInfos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvInfos_DataBindingComplete);
+            this.dgvInfos.DragDrop += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragDrop);
+            this.dgvInfos.DragEnter += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragEnter);
             // 
             // cb
             // 
