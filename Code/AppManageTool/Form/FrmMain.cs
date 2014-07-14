@@ -24,6 +24,8 @@ namespace AppManageTool
 
         #endregion
 
+        #region 初始化
+
         /// <summary>
         /// 窗体初始化
         /// </summary>
@@ -54,6 +56,10 @@ namespace AppManageTool
             dgvInfos.AutoGenerateColumns = false;
             dgvInfos.DataSource = list;
         }
+
+        #endregion
+
+        #region 事件
 
         /// <summary>
         /// 增加按钮事件
@@ -111,68 +117,13 @@ namespace AppManageTool
         }
 
         /// <summary>
-        /// 重置输入框
-        /// </summary>
-        private void ResetInput()
-        {
-            foreach (var item in pnAdd.Controls)
-            {
-                TextBox tb = item as TextBox;
-                if (tb != null)
-                {
-                    tb.Text = "";
-                }
-            }
-
-            rdbCommand.Checked = true;
-        }
-
-        /// <summary>
         /// 运行按钮事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnRun_Click(object sender, EventArgs e)
         {
-            cmd.ShowOpaqueLayer(groupBox1, 150, true);
-
-            //创建线程对象传入要线程执行的方法
-            Thread th = new Thread(RunApp);
-            //将线程设置为后台线程（当所有的前台线程结束后，后台线程会自动退出）
-            th.IsBackground = true;
-            //启动线程 执行方法
-            th.Start();
-
-        }
-
-        /// <summary>
-        /// 运行选中的程序
-        /// </summary>
-        private void RunApp()
-        {
-            AppInfo model;
-            for (int i = 0; i < dgvInfos.Rows.Count; i++)
-            {
-                //将行数据转换成实体对象
-                model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
-                if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
-                {
-                    if (!string.IsNullOrEmpty(model.AppPath))
-                    {
-                        switch (model.AppType)
-                        {
-                            case 1:
-                                CommandHelper.StartCmd(model.AppPath);
-                                break;
-                            case 2:
-                                Process.Start(model.AppPath);
-                                break;
-                        }
-                    }
-                }
-                service.UpdateChecked(model);
-            }
-            cmd.HideOpaqueLayer();
+            RunThread(() => RunSelectedApp());
         }
 
         /// <summary>
@@ -277,6 +228,11 @@ namespace AppManageTool
             }
         }
 
+        /// <summary>
+        /// 选择文件按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void picBrowser_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -289,68 +245,15 @@ namespace AppManageTool
             }
         }
 
+        /// <summary>
+        /// 上移按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
             Sort(false);
         }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        /// <param name="sortType">上移为false 下移为true</param>
-        private void Sort(bool sortType)
-        {
-            int index = dgvInfos.CurrentCell.RowIndex;
-            if ((!sortType && index == 0) || (sortType && index == dgvInfos.Rows.Count - 1)) return;
-            if (sortType)
-            {
-                index++;
-            }
-            else
-            {
-                index--;
-            }
-            AppInfo modelNow = dgvInfos.SelectedRows[0].DataBoundItem as AppInfo;
-            AppInfo modelMove = dgvInfos.Rows[index].DataBoundItem as AppInfo;
-
-            int tempOrder = modelNow.AppOrder;
-            modelNow.AppOrder = modelMove.AppOrder;
-            modelMove.AppOrder = tempOrder;
-
-            if (service.UpdateOrder(modelNow) && service.UpdateOrder(modelMove))
-            {
-                Init();
-                dgvInfos.CurrentCell = dgvInfos.Rows[index].Cells[0];
-            }
-        }
-
-        #region 后门程序
-
-        private void btnMoveDown_Click(object sender, EventArgs e)
-        {
-            Sort(true);
-        }
-
-        private void btnEncrypt_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(DESEncrypt.Encrypt(txtEncryptStr.Text));
-        }
-
-        private void btnDencrypt_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(DESEncrypt.Decrypt(txtEncryptStr.Text));
-        }
-
-        private void txtName_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter && txtName.Text == "whoisyourdaddy")
-            {
-                pnHide.Show();
-                pnHide.BringToFront();
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// 鼠标拖拽到列表上时发生的事件 
@@ -394,6 +297,182 @@ namespace AppManageTool
             Init();
         }
 
+        /// <summary>
+        /// 列表右键启动点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuStart_Click(object sender, EventArgs e)
+        {
+            AppInfo model = dgvInfos.Rows[dgvInfos.CurrentCell.RowIndex]
+                .DataBoundItem as AppInfo;
 
+            RunThread(() => RunSingleApp(model));
+        }
+
+        /// <summary>
+        /// 列表右键点击弹出菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgvInfos_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    dgvInfos.ClearSelection();
+                    dgvInfos.Rows[e.RowIndex].Selected = true;
+                    dgvInfos.CurrentCell = dgvInfos.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    this.ContextMSTable.Show(MousePosition.X, MousePosition.Y);
+                }
+            }
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        /// <summary>
+        /// 重置输入框
+        /// </summary>
+        private void ResetInput()
+        {
+            foreach (var item in pnAdd.Controls)
+            {
+                TextBox tb = item as TextBox;
+                if (tb != null)
+                {
+                    tb.Text = "";
+                }
+            }
+
+            rdbCommand.Checked = true;
+        }
+
+        /// <summary>
+        /// 开启线程  并加载运行方法
+        /// </summary>
+        /// <param name="threadStart"></param>
+        private void RunThread(ThreadStart threadStart)
+        {
+            cmd.ShowOpaqueLayer(groupBox1, 150, true);
+
+            //创建线程对象传入要线程执行的方法
+            Thread th = new Thread(threadStart);
+            //将线程设置为后台线程（当所有的前台线程结束后，后台线程会自动退出）
+            th.IsBackground = true;
+            //启动线程 执行方法
+            th.Start();
+        }
+
+        /// <summary>
+        /// 运行选中的程序
+        /// </summary>
+        private void RunSelectedApp()
+        {
+            AppInfo model;
+            for (int i = 0; i < dgvInfos.Rows.Count; i++)
+            {
+                //将行数据转换成实体对象
+                model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
+                if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
+                {
+                    LaunchApp(model);
+                }
+                service.UpdateChecked(model);
+            }
+            cmd.HideOpaqueLayer();
+        }
+
+        /// <summary>
+        /// 运行单个的程序
+        /// </summary>
+        private void RunSingleApp(AppInfo model)
+        {
+            LaunchApp(model);
+            cmd.HideOpaqueLayer();
+        }
+
+        /// <summary>
+        /// 启动应用
+        /// </summary>
+        /// <param name="model">应用的数据模型</param>
+        private static void LaunchApp(AppInfo model)
+        {
+            if (!string.IsNullOrEmpty(model.AppPath))
+            {
+                switch (model.AppType)
+                {
+                    case 1:
+                        CommandHelper.StartCmd(model.AppPath);
+                        break;
+                    case 2:
+                        Process.Start(model.AppPath);
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <param name="sortType">上移为false 下移为true</param>
+        private void Sort(bool sortType)
+        {
+            int index = dgvInfos.CurrentCell.RowIndex;
+            if ((!sortType && index == 0) || (sortType && index == dgvInfos.Rows.Count - 1)) return;
+            if (sortType)
+            {
+                index++;
+            }
+            else
+            {
+                index--;
+            }
+            AppInfo modelNow = dgvInfos.SelectedRows[0].DataBoundItem as AppInfo;
+            AppInfo modelMove = dgvInfos.Rows[index].DataBoundItem as AppInfo;
+
+            int tempOrder = modelNow.AppOrder;
+            modelNow.AppOrder = modelMove.AppOrder;
+            modelMove.AppOrder = tempOrder;
+
+            if (service.UpdateOrder(modelNow) && service.UpdateOrder(modelMove))
+            {
+                Init();
+                dgvInfos.CurrentCell = dgvInfos.Rows[index].Cells[0];
+            }
+        }
+
+
+        #endregion
+
+        #region 后门程序
+
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            Sort(true);
+        }
+
+        private void btnEncrypt_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DESEncrypt.Encrypt(txtEncryptStr.Text));
+        }
+
+        private void btnDencrypt_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(DESEncrypt.Decrypt(txtEncryptStr.Text));
+        }
+
+        private void txtName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && txtName.Text == "whoisyourdaddy")
+            {
+                pnHide.Show();
+                pnHide.BringToFront();
+            }
+        }
+
+        #endregion
     }
 }

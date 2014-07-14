@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvInfos = new System.Windows.Forms.DataGridView();
             this.cb = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,11 +63,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.ContextMSTable = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolMenuStart = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInfos)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnHide.SuspendLayout();
             this.pnAdd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).BeginInit();
+            this.ContextMSTable.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvInfos
@@ -95,6 +99,7 @@
             this.dgvInfos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvInfos.Size = new System.Drawing.Size(689, 465);
             this.dgvInfos.TabIndex = 1;
+            this.dgvInfos.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvInfos_CellMouseDown);
             this.dgvInfos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgvInfos_DataBindingComplete);
             this.dgvInfos.DragDrop += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragDrop);
             this.dgvInfos.DragEnter += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragEnter);
@@ -423,6 +428,20 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // ContextMSTable
+            // 
+            this.ContextMSTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolMenuStart});
+            this.ContextMSTable.Name = "ContextMSTable";
+            this.ContextMSTable.Size = new System.Drawing.Size(101, 26);
+            // 
+            // toolMenuStart
+            // 
+            this.toolMenuStart.Name = "toolMenuStart";
+            this.toolMenuStart.Size = new System.Drawing.Size(152, 22);
+            this.toolMenuStart.Text = "启动";
+            this.toolMenuStart.Click += new System.EventHandler(this.toolMenuStart_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -442,6 +461,7 @@
             this.pnAdd.ResumeLayout(false);
             this.pnAdd.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).EndInit();
+            this.ContextMSTable.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -482,6 +502,8 @@
         private System.Windows.Forms.TextBox txtEncryptStr;
         private System.Windows.Forms.Button btnDencrypt;
         private System.Windows.Forms.Panel pnHide;
+        private System.Windows.Forms.ContextMenuStrip ContextMSTable;
+        private System.Windows.Forms.ToolStripMenuItem toolMenuStart;
     }
 }
 
