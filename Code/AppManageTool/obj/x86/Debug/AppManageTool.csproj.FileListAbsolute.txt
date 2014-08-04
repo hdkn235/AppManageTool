@@ -25,8 +25,7 @@ E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.exe
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.pdb
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\AppManageTool.exe
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\AppManageTool.pdb
-E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\ResolveAssemblyReference.cache
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.FrmMain.resources
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.Properties.Resources.resources
-E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\GenerateResource.read.1.tlog
-E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.csproj.GenerateResource.Cache
+E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.csprojResolveAssemblyReference.cache

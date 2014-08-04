@@ -142,6 +142,22 @@ namespace AppManageTool
             }
         }
 
+        public bool Delete(AppInfo model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("delete from AppInfo");
+            strSql.Append(" where ID =" + model.ID);
+            int rows = DbHelperOleDb.ExecuteSql(strSql.ToString());
+            if (rows > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 更新一条数据
         /// </summary>

@@ -32,7 +32,7 @@ namespace AppManageTool
         public FrmMain()
         {
             InitializeComponent();
-
+            
             //不去检查跨线程操作的合法性，可以实现跨线程调用
             Control.CheckForIllegalCrossThreadCalls = false;
         }
@@ -44,13 +44,13 @@ namespace AppManageTool
         /// <param name="e"></param>
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            Init();
+            InitData();
         }
 
         /// <summary>
         /// 初始化列表
         /// </summary>
-        private void Init()
+        private void InitData()
         {
             List<AppInfo> list = service.GetList("");
             dgvInfos.AutoGenerateColumns = false;
@@ -97,7 +97,7 @@ namespace AppManageTool
             {
                 ResetInput();
                 pnAdd.Hide();
-                Init();
+                InitData();
             }
             else
             {
@@ -170,20 +170,7 @@ namespace AppManageTool
         private void btnModify_Click(object sender, EventArgs e)
         {
             AppInfo model = dgvInfos.SelectedRows[0].DataBoundItem as AppInfo;
-            txtName.Text = model.AppName;
-            txtParam.Text = model.AppParam;
-            txtPath.Text = model.AppPath;
-            txtID.Text = model.ID.ToString();
-            switch (model.AppType)
-            {
-                case 1:
-                    rdbCommand.Checked = true;
-                    break;
-                case 2:
-                    rdbFile.Checked = true;
-                    break;
-            }
-            pnAdd.Show();
+            ShowModify(model);
         }
 
         /// <summary>
@@ -196,7 +183,8 @@ namespace AppManageTool
             string idList = string.Empty;
             for (int i = 0; i < dgvInfos.Rows.Count; i++)
             {
-                if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
+                if (dgvInfos.Rows[i].Cells["cb"].Value != null &&
+                    dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
                 {
                     idList += dgvInfos.Rows[i].Cells["id"].Value + ",";
                 }
@@ -204,13 +192,17 @@ namespace AppManageTool
 
             if (!string.IsNullOrEmpty(idList))
             {
-                if (MessageBox.Show("确定要删除选择的应用程序吗？", "提示", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                if (MessageBox.Show(
+                    "确定要删除选择的应用程序吗？",
+                    "提示",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question) == DialogResult.Cancel)
                 {
                     return;
                 }
                 if (service.DeleteList(idList.Substring(0, idList.Length - 1)))
                 {
-                    Init();
+                    InitData();
                 }
             }
         }
@@ -294,20 +286,7 @@ namespace AppManageTool
                     return;
                 }
             }
-            Init();
-        }
-
-        /// <summary>
-        /// 列表右键启动点击事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolMenuStart_Click(object sender, EventArgs e)
-        {
-            AppInfo model = dgvInfos.Rows[dgvInfos.CurrentCell.RowIndex]
-                .DataBoundItem as AppInfo;
-
-            RunThread(() => RunSingleApp(model));
+            InitData();
         }
 
         /// <summary>
@@ -327,6 +306,108 @@ namespace AppManageTool
                     this.ContextMSTable.Show(MousePosition.X, MousePosition.Y);
                 }
             }
+        }
+
+        /// <summary>
+        /// 最小化到托盘
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmMain_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                this.NIMin.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// 托盘鼠标点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NIMin_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                toolMenuOpen_Click(sender, e);
+            }
+        }
+
+        #endregion
+
+        #region 右键菜单事件
+
+        /// <summary>
+        /// 右键修改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuModify_Click(object sender, EventArgs e)
+        {
+            AppInfo model = dgvInfos.Rows[dgvInfos.CurrentCell.RowIndex]
+                .DataBoundItem as AppInfo;
+            ShowModify(model);
+        }
+
+        /// <summary>
+        /// 列表右键启动点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuStart_Click(object sender, EventArgs e)
+        {
+            AppInfo model = dgvInfos.Rows[dgvInfos.CurrentCell.RowIndex]
+                .DataBoundItem as AppInfo;
+
+            RunThread(() => RunSingleApp(model));
+        }
+
+        /// <summary>
+        /// 右键删除按钮功能
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuDelete_Click(object sender, EventArgs e)
+        {
+            AppInfo model = dgvInfos.Rows[dgvInfos.CurrentCell.RowIndex]
+                .DataBoundItem as AppInfo;
+
+            if (MessageBox.Show(
+                "确定要删除 " + model.AppName + " 应用程序吗？",
+                "提示",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Question) == DialogResult.Cancel)
+            {
+                return;
+            }
+            if (service.Delete(model))
+            {
+                InitData();
+            }
+        }
+
+        /// <summary>
+        /// 托盘右键打开
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuOpen_Click(object sender, EventArgs e)
+        {
+            this.Visible = true;
+            this.WindowState = FormWindowState.Normal;
+            NIMin.Visible = false;
+        }
+
+        /// <summary>
+        /// 托盘右键退出
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void toolMenuExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         #endregion
@@ -439,11 +520,32 @@ namespace AppManageTool
 
             if (service.UpdateOrder(modelNow) && service.UpdateOrder(modelMove))
             {
-                Init();
+                InitData();
                 dgvInfos.CurrentCell = dgvInfos.Rows[index].Cells[0];
             }
         }
 
+        /// <summary>
+        /// 加载修改的页面
+        /// </summary>
+        /// <param name="model"></param>
+        private void ShowModify(AppInfo model)
+        {
+            txtName.Text = model.AppName;
+            txtParam.Text = model.AppParam;
+            txtPath.Text = model.AppPath;
+            txtID.Text = model.ID.ToString();
+            switch (model.AppType)
+            {
+                case 1:
+                    rdbCommand.Checked = true;
+                    break;
+                case 2:
+                    rdbFile.Checked = true;
+                    break;
+            }
+            pnAdd.Show();
+        }
 
         #endregion
 
@@ -474,5 +576,6 @@ namespace AppManageTool
         }
 
         #endregion
+
     }
 }

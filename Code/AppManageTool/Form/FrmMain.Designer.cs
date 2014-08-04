@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.dgvInfos = new System.Windows.Forms.DataGridView();
             this.cb = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,6 +40,7 @@
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AppType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnConfig = new System.Windows.Forms.Button();
             this.pnHide = new System.Windows.Forms.Panel();
             this.btnDencrypt = new System.Windows.Forms.Button();
             this.btnEncrypt = new System.Windows.Forms.Button();
@@ -49,7 +51,6 @@
             this.btnModify = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.pnAdd = new System.Windows.Forms.Panel();
-            this.picBrowser = new System.Windows.Forms.PictureBox();
             this.txtID = new System.Windows.Forms.TextBox();
             this.rdbFile = new System.Windows.Forms.RadioButton();
             this.rdbCommand = new System.Windows.Forms.RadioButton();
@@ -65,12 +66,20 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.ContextMSTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolMenuStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMenuModify = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMenuDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.NIMin = new System.Windows.Forms.NotifyIcon(this.components);
+            this.ContextMSNI = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolMenuExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.picBrowser = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInfos)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnHide.SuspendLayout();
             this.pnAdd.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).BeginInit();
             this.ContextMSTable.SuspendLayout();
+            this.ContextMSNI.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvInfos
@@ -169,6 +178,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox1.Controls.Add(this.btnConfig);
             this.groupBox1.Controls.Add(this.pnHide);
             this.groupBox1.Controls.Add(this.btnMoveDown);
             this.groupBox1.Controls.Add(this.btnMoveUp);
@@ -185,6 +195,15 @@
             this.groupBox1.Size = new System.Drawing.Size(802, 485);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
+            // 
+            // btnConfig
+            // 
+            this.btnConfig.Location = new System.Drawing.Point(713, 402);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(75, 23);
+            this.btnConfig.TabIndex = 14;
+            this.btnConfig.Text = "设置";
+            this.btnConfig.UseVisualStyleBackColor = true;
             // 
             // pnHide
             // 
@@ -226,7 +245,7 @@
             // 
             // btnMoveDown
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(713, 209);
+            this.btnMoveDown.Location = new System.Drawing.Point(713, 207);
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDown.TabIndex = 9;
@@ -236,7 +255,7 @@
             // 
             // btnMoveUp
             // 
-            this.btnMoveUp.Location = new System.Drawing.Point(713, 159);
+            this.btnMoveUp.Location = new System.Drawing.Point(713, 160);
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUp.TabIndex = 8;
@@ -256,7 +275,7 @@
             // 
             // btnModify
             // 
-            this.btnModify.Location = new System.Drawing.Point(713, 67);
+            this.btnModify.Location = new System.Drawing.Point(713, 66);
             this.btnModify.Name = "btnModify";
             this.btnModify.Size = new System.Drawing.Size(75, 23);
             this.btnModify.TabIndex = 6;
@@ -266,7 +285,7 @@
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(713, 115);
+            this.btnDelete.Location = new System.Drawing.Point(713, 113);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(75, 23);
             this.btnDelete.TabIndex = 5;
@@ -296,18 +315,6 @@
             this.pnAdd.TabIndex = 3;
             this.pnAdd.Visible = false;
             this.pnAdd.VisibleChanged += new System.EventHandler(this.pnAdd_VisibleChanged);
-            // 
-            // picBrowser
-            // 
-            this.picBrowser.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBrowser.Image = global::AppManageTool.Properties.Resources.png_0087;
-            this.picBrowser.Location = new System.Drawing.Point(318, 62);
-            this.picBrowser.Name = "picBrowser";
-            this.picBrowser.Size = new System.Drawing.Size(20, 20);
-            this.picBrowser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picBrowser.TabIndex = 13;
-            this.picBrowser.TabStop = false;
-            this.picBrowser.Click += new System.EventHandler(this.picBrowser_Click);
             // 
             // txtID
             // 
@@ -431,16 +438,73 @@
             // ContextMSTable
             // 
             this.ContextMSTable.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolMenuStart});
+            this.toolMenuStart,
+            this.toolMenuModify,
+            this.toolMenuDelete});
             this.ContextMSTable.Name = "ContextMSTable";
-            this.ContextMSTable.Size = new System.Drawing.Size(101, 26);
+            this.ContextMSTable.Size = new System.Drawing.Size(101, 70);
             // 
             // toolMenuStart
             // 
             this.toolMenuStart.Name = "toolMenuStart";
-            this.toolMenuStart.Size = new System.Drawing.Size(152, 22);
+            this.toolMenuStart.Size = new System.Drawing.Size(100, 22);
             this.toolMenuStart.Text = "启动";
             this.toolMenuStart.Click += new System.EventHandler(this.toolMenuStart_Click);
+            // 
+            // toolMenuModify
+            // 
+            this.toolMenuModify.Name = "toolMenuModify";
+            this.toolMenuModify.Size = new System.Drawing.Size(100, 22);
+            this.toolMenuModify.Text = "修改";
+            this.toolMenuModify.Click += new System.EventHandler(this.toolMenuModify_Click);
+            // 
+            // toolMenuDelete
+            // 
+            this.toolMenuDelete.Name = "toolMenuDelete";
+            this.toolMenuDelete.Size = new System.Drawing.Size(100, 22);
+            this.toolMenuDelete.Text = "删除";
+            this.toolMenuDelete.Click += new System.EventHandler(this.toolMenuDelete_Click);
+            // 
+            // NIMin
+            // 
+            this.NIMin.ContextMenuStrip = this.ContextMSNI;
+            this.NIMin.Icon = ((System.Drawing.Icon)(resources.GetObject("NIMin.Icon")));
+            this.NIMin.Text = "应用程序管理";
+            this.NIMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NIMin_MouseClick);
+            // 
+            // ContextMSNI
+            // 
+            this.ContextMSNI.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolMenuOpen,
+            this.toolMenuExit});
+            this.ContextMSNI.Name = "ContextMSNI";
+            this.ContextMSNI.Size = new System.Drawing.Size(101, 48);
+            // 
+            // toolMenuOpen
+            // 
+            this.toolMenuOpen.Name = "toolMenuOpen";
+            this.toolMenuOpen.Size = new System.Drawing.Size(100, 22);
+            this.toolMenuOpen.Text = "打开";
+            this.toolMenuOpen.Click += new System.EventHandler(this.toolMenuOpen_Click);
+            // 
+            // toolMenuExit
+            // 
+            this.toolMenuExit.Name = "toolMenuExit";
+            this.toolMenuExit.Size = new System.Drawing.Size(100, 22);
+            this.toolMenuExit.Text = "退出";
+            this.toolMenuExit.Click += new System.EventHandler(this.toolMenuExit_Click);
+            // 
+            // picBrowser
+            // 
+            this.picBrowser.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBrowser.Image = global::AppManageTool.Properties.Resources.png_0087;
+            this.picBrowser.Location = new System.Drawing.Point(318, 62);
+            this.picBrowser.Name = "picBrowser";
+            this.picBrowser.Size = new System.Drawing.Size(20, 20);
+            this.picBrowser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBrowser.TabIndex = 13;
+            this.picBrowser.TabStop = false;
+            this.picBrowser.Click += new System.EventHandler(this.picBrowser_Click);
             // 
             // FrmMain
             // 
@@ -449,10 +513,13 @@
             this.ClientSize = new System.Drawing.Size(802, 485);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "应用程序管理";
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.SizeChanged += new System.EventHandler(this.FrmMain_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInfos)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -460,8 +527,9 @@
             this.pnHide.PerformLayout();
             this.pnAdd.ResumeLayout(false);
             this.pnAdd.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).EndInit();
             this.ContextMSTable.ResumeLayout(false);
+            this.ContextMSNI.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBrowser)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -504,6 +572,13 @@
         private System.Windows.Forms.Panel pnHide;
         private System.Windows.Forms.ContextMenuStrip ContextMSTable;
         private System.Windows.Forms.ToolStripMenuItem toolMenuStart;
+        private System.Windows.Forms.Button btnConfig;
+        private System.Windows.Forms.ToolStripMenuItem toolMenuDelete;
+        private System.Windows.Forms.ToolStripMenuItem toolMenuModify;
+        private System.Windows.Forms.NotifyIcon NIMin;
+        private System.Windows.Forms.ContextMenuStrip ContextMSNI;
+        private System.Windows.Forms.ToolStripMenuItem toolMenuOpen;
+        private System.Windows.Forms.ToolStripMenuItem toolMenuExit;
     }
 }
 
