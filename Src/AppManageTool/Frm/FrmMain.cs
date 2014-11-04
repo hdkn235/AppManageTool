@@ -10,8 +10,10 @@ using System.Diagnostics;
 using System.Threading;
 using AppManageTool.Extension;
 using System.IO;
-using AppManageTool.DBUtility;
-using AppManageTool.Common;
+using AppManageTool.DAL;
+using AppManageTool.Helper;
+using System.Runtime.InteropServices;
+using AppManageTool.BLL;
 
 namespace AppManageTool
 {
@@ -19,11 +21,13 @@ namespace AppManageTool
     {
         #region 全局变量
 
-        private AppInfoService service = new AppInfoService();
+        private AppInfoDAL service = new AppInfoDAL();
 
         private OpaqueCommand cmd = new OpaqueCommand();
 
         private static bool startFlag = false;
+
+        private ConfigBLL configHelper = ConfigBLL.GetInstance();
 
         #endregion
 
@@ -48,6 +52,8 @@ namespace AppManageTool
         private void FrmMain_Load(object sender, EventArgs e)
         {
             InitData();
+
+            configHelper.RunAppAfterStart(RunThread, RunSelectedApp);
         }
 
         /// <summary>
@@ -58,6 +64,16 @@ namespace AppManageTool
             List<AppInfo> list = service.GetList("");
             dgvInfos.AutoGenerateColumns = false;
             dgvInfos.DataSource = list;
+        }
+
+        /// <summary>
+        /// 窗体第一次show时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmMain_Shown(object sender, EventArgs e)
+        {
+            configHelper.AutoMinAfterStart(this);
         }
 
         #endregion
@@ -127,6 +143,7 @@ namespace AppManageTool
         private void btnRun_Click(object sender, EventArgs e)
         {
             RunThread(() => RunSelectedApp());
+            configHelper.AutoMinAfterRunApp(this);
         }
 
         /// <summary>
@@ -389,9 +406,20 @@ namespace AppManageTool
             this.dgvInfos.Refresh();
         }
 
+        /// <summary>
+        /// 设置按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnConfig_Click(object sender, EventArgs e)
+        {
+            FrmConfig frmConfig = new FrmConfig();
+            frmConfig.ShowDialog();
+        }
+
         #endregion
 
-        #region 右键菜单事件
+        #region 列表右键菜单事件
 
         /// <summary>
         /// 右键修改
@@ -416,6 +444,8 @@ namespace AppManageTool
                 .DataBoundItem as AppInfo;
 
             RunThread(() => RunSingleApp(model));
+
+            configHelper.AutoMinAfterRunApp(this);
         }
 
         /// <summary>
@@ -466,7 +496,7 @@ namespace AppManageTool
 
         #endregion
 
-        #region 私有方法
+        #region 自定义方法
 
         /// <summary>
         /// 重置输入框
@@ -506,12 +536,10 @@ namespace AppManageTool
         /// </summary>
         private void RunSelectedApp()
         {
-            AppInfo model;
-            for (int i = 0; i < dgvInfos.Rows.Count; i++)
+            List<AppInfo> appInfos = this.GetAllApps();
+            foreach (AppInfo model in appInfos)
             {
-                //将行数据转换成实体对象
-                model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
-                if (dgvInfos.Rows[i].Cells["cb"].Value != null && dgvInfos.Rows[i].Cells["cb"].Value.ToString() == "1")
+                if (model.IsChecked == 1)
                 {
                     LaunchApp(model);
                 }
@@ -519,6 +547,19 @@ namespace AppManageTool
             }
             cmd.HideOpaqueLayer();
             startFlag = false;
+        }
+
+        private List<AppInfo> GetAllApps()
+        {
+            List<AppInfo> list = new List<AppInfo>();
+            AppInfo model;
+            for (int i = 0; i < dgvInfos.Rows.Count; i++)
+            {
+                //将行数据转换成实体对象
+                model = dgvInfos.Rows[i].DataBoundItem as AppInfo;
+                list.Add(model);
+            }
+            return list;
         }
 
         /// <summary>
@@ -615,12 +656,12 @@ namespace AppManageTool
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DESEncrypt.Encrypt(txtEncryptStr.Text));
+            MessageBox.Show(DESEncryptHelper.Encrypt(txtEncryptStr.Text));
         }
 
         private void btnDencrypt_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DESEncrypt.Decrypt(txtEncryptStr.Text));
+            MessageBox.Show(DESEncryptHelper.Decrypt(txtEncryptStr.Text));
         }
 
         private void txtName_KeyDown(object sender, KeyEventArgs e)

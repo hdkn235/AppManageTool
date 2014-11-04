@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace AppManageTool
+namespace AppManageTool.Helper
 {
     public class CommandHelper
     {

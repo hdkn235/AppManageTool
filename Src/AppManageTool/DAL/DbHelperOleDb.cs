@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Configuration;
 
-namespace AppManageTool.DBUtility
+namespace AppManageTool.DAL
 {
     /// <summary>
     /// Copyright (C) AppManageTool
@@ -16,10 +16,9 @@ namespace AppManageTool.DBUtility
     {
         //数据库连接字符串(web.config来配置)，可以动态更改connectionString支持多数据库.		
         public static string connectionString = PubConstant.ConnectionString;     		
-        public DbHelperOleDb()
+        private DbHelperOleDb()
         {
         }
-
 
         #region 公用方法
        
@@ -36,6 +35,7 @@ namespace AppManageTool.DBUtility
                 return int.Parse(obj.ToString());
             }
         }
+
         public static bool Exists(string strSql)
         {
             object obj = GetSingle(strSql);
@@ -57,6 +57,7 @@ namespace AppManageTool.DBUtility
                 return true;
             }
         }
+
         public static bool Exists(string strSql, params OleDbParameter[] cmdParms)
         {
             object obj = GetSingle(strSql, cmdParms);
@@ -452,8 +453,5 @@ namespace AppManageTool.DBUtility
         }
 
         #endregion
-
-    
-
     }
 }

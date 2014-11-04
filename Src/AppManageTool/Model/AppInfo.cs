@@ -34,17 +34,17 @@ namespace AppManageTool
         public int AppType { get; set; }
 
         /// <summary>
-        /// 排序号
+        /// 排序位置
         /// </summary>
         public int AppOrder { get; set; }
 
         /// <summary>
-        /// 
+        /// 显示的序号
         /// </summary>
         public int AppNum { get; set; }
 
         /// <summary>
-        /// 
+        /// 显示的执行类型
         /// </summary>
         public string Type { get; set; }
 

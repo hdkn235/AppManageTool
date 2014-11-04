@@ -3,7 +3,10 @@ using System.Windows.Forms;
 
 namespace AppManageTool
 {
-    class OpaqueCommand
+    /// <summary>
+    /// ÕÚÕÖ²ã°ïÖúÀà
+    /// </summary>
+    public class OpaqueCommand
     {
         private MyOpaqueLayer m_OpaqueLayer = null;//°ëÍ¸Ã÷ÃÉ°å²ã
 

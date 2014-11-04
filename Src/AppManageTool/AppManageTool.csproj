@@ -62,18 +62,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Common\SystemHelper.cs" />
+    <Compile Include="DAL\ConfigDAL.cs" />
+    <Compile Include="Frm\FrmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm\FrmConfig.Designer.cs">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BLL\ConfigBLL.cs" />
+    <Compile Include="Helper\RegisterHelper.cs" />
+    <Compile Include="Helper\SystemHelper.cs" />
     <Compile Include="Extension\MyOpaqueLayerThread.cs" />
     <Compile Include="Model\AppInfo.cs" />
     <Compile Include="Model\Config.cs" />
-    <Compile Include="Services\AppInfoService.cs" />
-    <Compile Include="Common\CommandHelper.cs" />
-    <Compile Include="DBUtility\DbHelperOleDb.cs" />
-    <Compile Include="DBUtility\DESEncrypt.cs" />
-    <Compile Include="Form\FrmMain.cs">
+    <Compile Include="DAL\AppInfoDAL.cs" />
+    <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="DAL\DbHelperOleDb.cs" />
+    <Compile Include="Helper\DESEncryptHelper.cs" />
+    <Compile Include="Frm\FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form\FrmMain.Designer.cs">
+    <Compile Include="Frm\FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Extension\MyOpaqueLayer.cs">
@@ -82,8 +91,11 @@
     <Compile Include="Extension\OpaqueCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DBUtility\PubConstant.cs" />
-    <EmbeddedResource Include="Form\FrmMain.resx">
+    <Compile Include="DAL\PubConstant.cs" />
+    <EmbeddedResource Include="Frm\FrmConfig.resx">
+      <DependentUpon>FrmConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm\FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -96,7 +108,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="Data\Info.dat">
+    <None Include="Info.dat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Properties\app.manifest">
@@ -124,9 +136,7 @@
   <ItemGroup>
     <None Include="Resources\loading.gif" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\014.ico" />
   </ItemGroup>

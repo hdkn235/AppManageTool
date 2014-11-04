@@ -5,7 +5,7 @@ using System.Text;
 using System.ServiceProcess;
 using System.Diagnostics;
 
-namespace AppManageTool.Common
+namespace AppManageTool.Helper
 {
     /// <summary>
     /// 系统帮助类

@@ -29,9 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.dgvInfos = new System.Windows.Forms.DataGridView();
+            this.cb = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnConfig = new System.Windows.Forms.Button();
             this.pnHide = new System.Windows.Forms.Panel();
@@ -67,15 +76,6 @@
             this.toolMenuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.toolMenuExit = new System.Windows.Forms.ToolStripMenuItem();
             this.TimerCheckStatus = new System.Windows.Forms.Timer(this.components);
-            this.cb = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppPath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppParam = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInfos)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnHide.SuspendLayout();
@@ -93,14 +93,14 @@
             this.dgvInfos.AllowUserToResizeRows = false;
             this.dgvInfos.BackgroundColor = System.Drawing.Color.White;
             this.dgvInfos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvInfos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvInfos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvInfos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInfos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cb,
@@ -125,6 +125,76 @@
             this.dgvInfos.DragDrop += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragDrop);
             this.dgvInfos.DragEnter += new System.Windows.Forms.DragEventHandler(this.dgvInfos_DragEnter);
             this.dgvInfos.DoubleClick += new System.EventHandler(this.btnModify_Click);
+            // 
+            // cb
+            // 
+            this.cb.DataPropertyName = "IsChecked";
+            this.cb.FalseValue = "0";
+            this.cb.HeaderText = "";
+            this.cb.Name = "cb";
+            this.cb.TrueValue = "1";
+            this.cb.Width = 30;
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "ID";
+            this.id.HeaderText = "id";
+            this.id.Name = "id";
+            this.id.Visible = false;
+            this.id.Width = 50;
+            // 
+            // AppNum
+            // 
+            this.AppNum.DataPropertyName = "AppNum";
+            this.AppNum.HeaderText = "序号";
+            this.AppNum.Name = "AppNum";
+            this.AppNum.Width = 40;
+            // 
+            // AppName
+            // 
+            this.AppName.DataPropertyName = "AppName";
+            this.AppName.HeaderText = "应用名称";
+            this.AppName.Name = "AppName";
+            this.AppName.ReadOnly = true;
+            this.AppName.Width = 150;
+            // 
+            // AppPath
+            // 
+            this.AppPath.DataPropertyName = "AppPath";
+            this.AppPath.HeaderText = "执行程序";
+            this.AppPath.Name = "AppPath";
+            this.AppPath.ReadOnly = true;
+            this.AppPath.Width = 180;
+            // 
+            // AppParam
+            // 
+            this.AppParam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.AppParam.DataPropertyName = "AppParam";
+            this.AppParam.HeaderText = "参数";
+            this.AppParam.Name = "AppParam";
+            this.AppParam.ReadOnly = true;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "状态";
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            this.Status.Width = 80;
+            // 
+            // Type
+            // 
+            this.Type.DataPropertyName = "Type";
+            this.Type.HeaderText = "执行类型";
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            // 
+            // AppType
+            // 
+            this.AppType.DataPropertyName = "AppType";
+            this.AppType.HeaderText = "AppType";
+            this.AppType.Name = "AppType";
+            this.AppType.Visible = false;
             // 
             // groupBox1
             // 
@@ -155,6 +225,7 @@
             this.btnConfig.TabIndex = 14;
             this.btnConfig.Text = "设置";
             this.btnConfig.UseVisualStyleBackColor = true;
+            this.btnConfig.Click += new System.EventHandler(this.btnConfig_Click);
             // 
             // pnHide
             // 
@@ -433,6 +504,7 @@
             this.NIMin.ContextMenuStrip = this.ContextMSNI;
             this.NIMin.Icon = ((System.Drawing.Icon)(resources.GetObject("NIMin.Icon")));
             this.NIMin.Text = "应用程序管理";
+            this.NIMin.Visible = true;
             this.NIMin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NIMin_MouseClick);
             // 
             // ContextMSNI
@@ -463,76 +535,6 @@
             this.TimerCheckStatus.Interval = 1000;
             this.TimerCheckStatus.Tick += new System.EventHandler(this.TimerCheckStatus_Tick);
             // 
-            // cb
-            // 
-            this.cb.DataPropertyName = "IsChecked";
-            this.cb.FalseValue = "0";
-            this.cb.HeaderText = "";
-            this.cb.Name = "cb";
-            this.cb.TrueValue = "1";
-            this.cb.Width = 30;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "ID";
-            this.id.HeaderText = "id";
-            this.id.Name = "id";
-            this.id.Visible = false;
-            this.id.Width = 50;
-            // 
-            // AppNum
-            // 
-            this.AppNum.DataPropertyName = "AppNum";
-            this.AppNum.HeaderText = "序号";
-            this.AppNum.Name = "AppNum";
-            this.AppNum.Width = 40;
-            // 
-            // AppName
-            // 
-            this.AppName.DataPropertyName = "AppName";
-            this.AppName.HeaderText = "应用名称";
-            this.AppName.Name = "AppName";
-            this.AppName.ReadOnly = true;
-            this.AppName.Width = 150;
-            // 
-            // AppPath
-            // 
-            this.AppPath.DataPropertyName = "AppPath";
-            this.AppPath.HeaderText = "执行程序";
-            this.AppPath.Name = "AppPath";
-            this.AppPath.ReadOnly = true;
-            this.AppPath.Width = 180;
-            // 
-            // AppParam
-            // 
-            this.AppParam.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.AppParam.DataPropertyName = "AppParam";
-            this.AppParam.HeaderText = "参数";
-            this.AppParam.Name = "AppParam";
-            this.AppParam.ReadOnly = true;
-            // 
-            // Status
-            // 
-            this.Status.DataPropertyName = "Status";
-            this.Status.HeaderText = "状态";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Width = 80;
-            // 
-            // Type
-            // 
-            this.Type.DataPropertyName = "Type";
-            this.Type.HeaderText = "执行类型";
-            this.Type.Name = "Type";
-            this.Type.ReadOnly = true;
-            // 
-            // AppType
-            // 
-            this.AppType.DataPropertyName = "AppType";
-            this.AppType.HeaderText = "AppType";
-            this.AppType.Name = "AppType";
-            this.AppType.Visible = false;
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -543,9 +545,12 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmMain";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "应用程序管理";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FrmMain_Load);
+            this.Shown += new System.EventHandler(this.FrmMain_Shown);
             this.SizeChanged += new System.EventHandler(this.FrmMain_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInfos)).EndInit();
             this.groupBox1.ResumeLayout(false);

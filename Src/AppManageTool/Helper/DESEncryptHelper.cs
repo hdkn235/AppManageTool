@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Security.Cryptography;  
 using System.Text;
-namespace AppManageTool.DBUtility
+
+namespace AppManageTool.Helper
 {
 	/// <summary>
 	/// DES加密/解密类。
 	/// </summary>
-	public class DESEncrypt
+	public class DESEncryptHelper
 	{
         private static string key = "maktub";
 
-		public DESEncrypt()
+		public DESEncryptHelper()
 		{			
 		}
 

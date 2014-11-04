@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.OleDb;
-using AppManageTool.DBUtility;
+using AppManageTool.DAL;
 
-namespace AppManageTool
+namespace AppManageTool.DAL
 {
-    public class AppInfoService
+    public class AppInfoDAL
     {
         public List<AppInfo> GetList(string strWhere)
         {

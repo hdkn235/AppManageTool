@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
-namespace AppManageTool.DBUtility
+using AppManageTool.Helper;
+
+namespace AppManageTool.DAL
 {
     
     public class PubConstant
@@ -16,7 +18,7 @@ namespace AppManageTool.DBUtility
                 string ConStringEncrypt = ConfigurationManager.AppSettings["ConStringEncrypt"];
                 if (ConStringEncrypt == "true")
                 {
-                    _connectionString = DESEncrypt.Decrypt(_connectionString);
+                    _connectionString = DESEncryptHelper.Decrypt(_connectionString);
                 }
                 return _connectionString; 
             }
@@ -33,7 +35,7 @@ namespace AppManageTool.DBUtility
             string ConStringEncrypt = ConfigurationManager.AppSettings["ConStringEncrypt"];
             if (ConStringEncrypt == "true")
             {
-                connectionString = DESEncrypt.Decrypt(connectionString);
+                connectionString = DESEncryptHelper.Decrypt(connectionString);
             }
             return connectionString;
         }
