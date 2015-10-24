@@ -270,6 +270,16 @@ namespace AppManageTool
         }
 
         /// <summary>
+        /// 下移按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            Sort(true);
+        }
+
+        /// <summary>
         /// 鼠标拖拽到列表上时发生的事件 
         /// </summary>
         /// <param name="sender"></param>
@@ -649,19 +659,35 @@ namespace AppManageTool
 
         #region 后门程序
 
-        private void btnMoveDown_Click(object sender, EventArgs e)
-        {
-            Sort(true);
-        }
-
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DESEncryptHelper.Encrypt(txtEncryptStr.Text));
+            if (!string.IsNullOrEmpty(txtEncryptStr.Text))
+            {
+                try
+                {
+                    MessageBox.Show(DESEncryptHelper.Encrypt(txtEncryptStr.Text));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }                
+            }            
         }
 
         private void btnDencrypt_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(DESEncryptHelper.Decrypt(txtEncryptStr.Text));
+            if (!string.IsNullOrEmpty(txtEncryptStr.Text))
+            {
+                try
+                {
+                    MessageBox.Show(DESEncryptHelper.Decrypt(txtEncryptStr.Text));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                
+            }            
         }
 
         private void txtName_KeyDown(object sender, KeyEventArgs e)
