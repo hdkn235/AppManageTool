@@ -30,14 +30,3 @@ E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.Propert
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.csproj.GenerateResource.Cache
 E:\Projects\AppManageTool\Code\AppManageTool\obj\x86\Debug\AppManageTool.csprojResolveAssemblyReference.cache
 E:\Projects\AppManageTool\Code\AppManageTool\bin\Debug\Data\Info.dat
-E:\Projects\AppManageTool\Src\AppManageTool\bin\Debug\AppManageTool.exe.config
-E:\Projects\AppManageTool\Src\AppManageTool\bin\Debug\AppManageTool.exe
-E:\Projects\AppManageTool\Src\AppManageTool\bin\Debug\AppManageTool.pdb
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.FrmConfig.resources
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.FrmMain.resources
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.Properties.Resources.resources
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.csproj.GenerateResource.Cache
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.exe
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.pdb
-E:\Projects\AppManageTool\Src\AppManageTool\bin\Debug\Info.dat
-E:\Projects\AppManageTool\Src\AppManageTool\obj\x86\Debug\AppManageTool.csprojResolveAssemblyReference.cache
